@@ -28,7 +28,7 @@
 #include <cassert>
 #include <thread>
 
-#include "routing_util.h"
+#include "routing_utils.h"
 
 namespace route {
 /**
@@ -66,7 +66,7 @@ void RoutingHandler::monitor_route() {
   lr.nl_family = AF_NETLINK;
   // rigister the routing notify of ipv4, ipv6
   lr.nl_groups = RTMGRP_IPV6_ROUTE | RTMGRP_IPV4_ROUTE | RTMGRP_NOTIFY;
-  if (bind(route_socket_, (struct sockaddr *)&lr, sizeof(lr)) < 0) {
+  if (bind(route_socket_, (struct sockaddr*)&lr, sizeof(lr)) < 0) {
     std::cout << "bind to netlink: " << strerror(errno);
     close(route_socket_);
     return;
@@ -86,7 +86,7 @@ void RoutingHandler::monitor_route() {
         return;
       }
 
-      struct nlmsghdr *nh = (struct nlmsghdr *)buf;
+      struct nlmsghdr* nh = (struct nlmsghdr*)buf;
       read_route(nh, nll, table_);
       std::cout << "Routing table updated.";
       std::cout << table_;
